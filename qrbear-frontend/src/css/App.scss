@@ -1,0 +1,454 @@
+.App {
+  text-align: left;
+  padding: 0px;
+  margin: 0px;
+}
+
+.App-link {
+  color: #61dafb;
+}
+//sidebar, reslist, reslist container
+//=============================================================================================
+.sidebar {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 60px;
+  background-color: rgb(17, 62, 83);
+  padding: 0px;
+  position:absolute;
+  top: 0px;
+  bottom: 0px;
+  text-align: left;
+  color: white;
+  z-index: 2;
+  transition: 0.3s;
+  &:hover {
+    box-shadow:
+      15px 0px 32px rgba(0, 0, 0, 0.25)
+    ;
+  }
+}
+.reslist {
+  @extend .sidebar;
+  background-color: rgb(205, 211, 216);
+  color: rgb(50,50,50);
+  left: 250px;
+  width:300px;
+  height: 100%;
+}
+.reslist-container {
+  background-color: rgb(219, 226, 230);
+  border-right: 1px solid rgb(190, 190, 190);
+  color: rgb(50,50,50);
+  overflow-y: auto;
+  position: block;
+  //top: 70px;
+  //bottom: 0px;
+  width: 100%;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+}
+.reslist-container::-webkit-scrollbar {
+  display:none;
+}
+
+//section header div and text, reslist header
+//=============================================================================================
+.section-header {
+  position: block;
+  top:0px;
+  left:0px;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(26, 50, 62, 0.75);
+  padding: 5px;
+  text-align: left;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.section-header-h1 {
+  font-size: 24px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: normal;
+  color: white;
+  float: right;
+  line-height: 10px;
+  vertical-align: middle;
+}
+.reslist-header-container{
+  height: 30px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  position: sticky;
+  background: linear-gradient(rgb(238, 238, 238), rgb(207, 207, 207));
+  border-bottom: 1px solid rgb(190, 190, 190);
+  
+}
+.reslist-header-container > * {
+  flex: 1 0;
+}
+
+#reslist-id{
+  flex: 0 0 50px !important;
+}
+#reslist-upc{
+  flex: 0 0 100px !important;
+}
+//logo - image and text
+//=============================================================================================
+#logo-img {
+  height: 40px;
+  float: left;
+  //position:block;
+  vertical-align: center;
+  margin-left: 10px;
+}
+#logo-text {
+  font-size: 20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: normal;
+  color: white;
+  float: left;
+  line-height: 0px;
+  //position:block;
+}
+
+#logo-div {
+  padding-top: 5px;
+  padding-right: 7px;
+  left: -130px;
+  top: 0px;
+  transition: 0.3s;
+  position: absolute;
+  width: 190px;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 10px;
+  user-select: none;
+  &:hover{
+    background-color: rgb(17, 62, 83) !important;
+    left: -10px;
+  }
+  
+}
+
+//buttons
+//=============================================================================================
+button {
+  padding: 10px;
+  color: white;
+  background-color: rgb(44, 104, 196);
+  border-radius: 3px;
+  border: solid 1px rgb(0, 73, 184);
+  transition: 0.2s;
+  
+  //vertical-align: middle;
+  //height: fit-content;
+  &:hover {
+    background-color:rgb(71, 144, 255);
+    border-color:rgb(0, 102, 255);
+  }
+  &:active {
+    background-color:rgb(0, 73, 184);
+    border-color:rgb(2, 46, 112);
+  }
+}
+.redbtn {
+  @extend button;
+  background-color:rgb(184, 58, 0);
+  border-color:rgb(112, 33, 2);
+  &:hover {
+    background-color:rgb(226, 90, 0);
+    border-color:rgb(112, 33, 2);
+  }
+  &:active {
+    background-color:rgb(112, 33, 2);
+    border-color:rgb(112, 33, 2);
+  }
+}
+.greenbtn {
+  @extend button;
+  background-color: rgb(96, 148, 0);
+  border-color: rgb(61, 94, 0);
+  &:hover {
+    background-color: rgb(113, 173, 1);
+    border-color: rgb(61, 94, 0);
+  }
+  &:active {
+    background-color: rgb(67, 104, 0);
+    border-color: rgb(61, 94, 0);
+  }
+}
+.rightpanel-btn{
+  @extend button;
+  width: 100%;
+}
+.rightpanel-btn-red{
+  @extend .redbtn;
+  width: 100%;
+}
+.rightpanel-btn-green {
+  @extend .greenbtn;
+  width: 100%;
+}
+
+//list items - ul, li, and custom list items
+//=============================================================================================
+ul{
+  padding: 0;
+  list-style-type: none;
+}
+li {
+  //font-family: Arial, Helvetica, sans-serif;
+  font-size: medium;
+  font-weight: normal;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  user-select: none;
+  //border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  //border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+li:hover, .listitem-container:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+li:active, .listitem-container:active {
+  background-color: rgba(0,0,0,0.25);
+}
+.listitem-container{
+  padding: 10px;
+  border-bottom: 1px solid rgb(190, 190, 190);
+  display: flex;
+}
+.sidebaritem {
+  font-size: medium;
+  font-weight: normal;
+  user-select: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  position: relative;
+  left: -155px;
+  transition: 0.3s;
+  width: 170px;
+  background-color: rgb(17, 62, 83);
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 10px;
+  &:hover {
+    left: -10px;
+    background-color: rgb(112,141,0);
+    box-shadow:
+      0px 2.1px 1.3px rgba(0, 0, 0, 0.061),
+      0px 4.9px 4.5px rgba(0, 0, 0, 0.089),
+      0px 10px 20px rgba(0, 0, 0, 0.15)
+    ;
+
+  }
+}
+
+.listitem-middle-col {
+  font-size: medium;
+  height: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0px;
+  flex: 1 1 auto;
+  margin: 0px;
+  user-select: none;
+  color: rgb(50,50,50);
+}
+.listitem-right-col {
+  @extend .listitem-middle-col;
+  max-width: 30ch;
+  flex: 0 0 95px;
+}
+.listitem-left-col {
+  @extend .listitem-middle-col;
+  max-width: 30ch;
+  flex: 0 0 50px;
+}
+
+//main-ops - the main work area (container), ops-section - module that gets added to main-ops, more to follow
+//=============================================================================================
+.module {
+  position: absolute;
+  left: 60px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  box-sizing: border-box;
+  padding: 0;
+  background-color: rgb(240, 240, 240);
+  &-reslist {
+    @extend .module;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 50px 1fr;
+  }
+}
+.main-ops{
+  background-color: rgb(240,240,240);
+  position: absolute;
+  left: 60px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  padding-left: 15px;
+}
+.main-ops-container {
+  width: 100%;
+  position: block;
+  top: 70px;
+  bottom: 0px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+//card - container, title, labels, inputs - normal & readonly
+//=============================================================================================
+.card-container {
+  background-color: rgb(240, 240, 240);
+  border-top: 1px solid rgb(255, 255, 255);
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow:
+    0px 2.1px 1.3px rgba(0, 0, 0, 0.061),
+    0px 4.9px 4.5px rgba(0, 0, 0, 0.089),
+    0px 10px 20px rgba(0, 0, 0, 0.15)
+  ;
+  &-grid {
+    @extend .card-container;
+    display:grid;
+    grid-template-columns: 1fr 160px;
+    grid-template-rows: 35px 1fr;
+  }
+  
+}
+
+.card-inside {
+  @extend .card-container;
+  background-color: white;
+  border: 1px solid rgb(190, 190, 190);
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+.quickactions-container {
+  @extend .card-container;
+  grid-column: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+input[type=text]{
+  padding:3px;
+  margin-bottom: 3px;
+  padding-left: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  //font-size: medium;
+  font-weight:bolder;
+  color: rgb(50,50,50);
+  min-height: 25px;
+  border-radius: 3px;
+  border: 1px solid rgb(50,50,50);
+  background-color: rgba(255, 255, 255, 0.5);
+  //box-shadow: 0px 0px 15px rgb(204, 204, 204);
+  &:read-only {
+    @extend input, [type=text];
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px dashed rgb(50,50,50);
+    background-color: rgb(240, 240, 240);
+  }
+  &:focus {
+    @extend input, [type=text];
+    outline: 1px solid rgb(0, 162, 255);
+    border: 2px solid rgb(0, 162, 255);
+  }
+}
+.card-rightpanel-wrapper {
+  padding-left: 5px;
+  padding-right: 5px;
+  //height: 100%;
+  //justify-content: bottom;
+  display: flex;
+  //align-items: flex-end;
+  flex-direction: column;
+  justify-content:flex-start;
+  gap: 5px;
+}
+.card-leftpanel-wrapper {
+  padding-right: 15px;
+  //background-color: yellow;
+}
+.card-qrcode-wrapper {
+  width: 150px;
+  height: 150px;
+  background-color:slategray;
+  vertical-align: top;
+  display: inline-block;
+  position:relative;
+  top: 0px;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+.spacer {
+  height: 10px;
+}
+
+hr.solid {
+  border-top: 1px dashed rgb(50,50,50);
+}
+
+//text and headings
+//=============================================================================================
+h2 {
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 1px;
+}
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(50,50,50);
+  height: 12px;
+}
+.card-title{
+  font-size: 24px;
+  font-weight: normal;
+  line-height:0px;
+  color:rgb(50,50,50);
+  grid-column: 1 / 3;
+}
+label {
+  color:rgb(50,50,50);
+  font-size: 14px;
+  font-weight: bold;
+}
