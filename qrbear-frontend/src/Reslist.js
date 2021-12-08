@@ -6,11 +6,11 @@ export function ResListContainer(props){
             <div className='reslist-header-container'>
                 <label id='reslist-id'>ID</label>
                 <label>Name</label>
-                <label id='reslist-upc'>UPC</label>
+                <label id='reslist-upc'>SKU</label>
                 </div>
             {props.items.map((item, index) => {
-                /* mock_index is used for fetching data from MOCK_DATA, so it will correspond to the item clicked. Replace with key so that it will fetch from DB instead. */
-                return <ListItem mock_index={index} opsCallback = {props.opsCallback} key = {item.id} name = {item.item_name} upc = {item.item_upc} />
+                
+                return <ListItem item_id={item.item_id} opsCallback = {props.opsCallback} key = {item.item_id} item_name = {item.item_name} item_sku_id = {item.item_sku_id} />
             })}
         </div>
     );

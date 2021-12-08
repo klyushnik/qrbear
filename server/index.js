@@ -15,6 +15,7 @@ var con = mysql.createConnection({
     database: 'qrbear_inventory'
 });
 
+
 con.connect((err) => {
     if(err) throw err;
     console.log('connected to sql');
@@ -25,6 +26,30 @@ app.get("/api", (req, res) => {
         if(err) throw err;
         res.json(result);
     });
+});
+
+app.get("/list/:type", (req, res) => {
+    let query = "";
+    switch (req.params.type){
+        case "bins":
+            query = "SELECT bin_id, bin_name FROM bin";
+            break;
+        case "locations":
+            query = "SELECT loc_id, loc_name, aisle_id FROM location";
+            break;
+        case "items":
+        default:
+            query = "SELECT item_id, item_name, item_sku_id FROM item";
+            break;
+    }
+    con.query(query, function (err, result) {
+        if(err) throw err;
+        res.json(result);
+    });
+});
+
+app.post("additem", (req, res) => {
+    //todo: separate executeQuery() function to reduce repetitive code, can do one for get and one for post/put
 });
 
 app.get("/api/:param", (req, res) => {

@@ -21,12 +21,7 @@
   text-align: left;
   color: white;
   z-index: 2;
-  transition: 0.3s;
-  &:hover {
-    box-shadow:
-      15px 0px 32px rgba(0, 0, 0, 0.25)
-    ;
-  }
+  
 }
 .reslist {
   @extend .sidebar;
@@ -299,26 +294,20 @@ li:active, .listitem-container:active {
   }
 }
 .main-ops{
-  background-color: rgb(240,240,240);
-  position: absolute;
-  left: 60px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  padding-left: 15px;
-}
-.main-ops-container {
   width: 100%;
   position: block;
   top: 70px;
   bottom: 0px;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
   overflow: auto;
   padding: 10px;
   box-sizing: border-box;
+  &-grid {
+    @extend .main-ops;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;  
+  }
 }
 
 //card - container, title, labels, inputs - normal & readonly

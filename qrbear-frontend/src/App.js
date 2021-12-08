@@ -40,7 +40,7 @@ function App() {
       case modes.COUNTS_REPORTS:
       case modes.APP_PREFERENCES:
         return (
-        <div className='main-ops'>
+        <div className='module'>
           <h1>Module not yet implemented</h1>
           <h2>APP_MODE: {APP_MODE}</h2>
         </div>

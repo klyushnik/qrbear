@@ -1,7 +1,7 @@
 import React from "react";
-import { CardItemCounts } from "./CardItemCounts";
-import { CardItemInfo } from "./CardItemInfo";
-import { CardItemQuickActions } from "./CardItemQuickActions";
+import { CardItemCounts } from "./cards/CardItemCounts";
+import { CardItemInfo } from "./cards/CardItemInfo";
+import { CardItemQuickActions } from "./cards/CardItemQuickActions";
 import { ResListContainer } from "./Reslist";
 
 const items = require('./MOCK_DATA.json');
@@ -24,7 +24,8 @@ export class ModuleItemManagement extends React.Component {
     }
 
     componentDidMount() {
-        fetch("/api")
+        fetch("/api") //select * from item
+        //fetch("/list/items") //select item_id, item_name, item_sku from item
         .then((res) => 
             res.json())
         .then((json) => {
@@ -49,12 +50,21 @@ export class ModuleItemManagement extends React.Component {
                     <button>[ * ] Duplicate Item</button>   
                     <button className = 'redbtn'>[ x ] Delete Item</button>                  
                 </div>
-                <ResListContainer items = {items} opsCallback = {this.mainOpsSetup}/>
-                <div className = 'main-ops-container'>
+                <ResListContainer items = {this.state.items} opsCallback = {this.mainOpsSetup}/>
+                {this.state.index == -1 ?
+                (<div className='main-ops'>
+                    <div style = {{display: "flex", flexDirection: "column", width: "75%", height: "100%", margin: "auto", justifyContent: "center"}}>
+                        <div className='card-inside'>   
+                        <h2>No item selected</h2>
+                        <p>Select an item from the list or add a new item.</p>
+                        </div>
+                    </div>
+                </div>) :
+                ( <div className = 'main-ops-grid'>
                     <CardItemInfo data = {this.state.items.length > 0 ? this.state.items[0] : {}} />
-                    <CardItemQuickActions data = {this.state.index === -1 ? {} : items[this.state.index]} />
-                    <CardItemCounts data = {this.state.index === -1 ? {} : items[this.state.index]} />
-                </div>
+                    <CardItemQuickActions data = {this.state.index === -1 ? {} : this.state.items[0]} />
+                    <CardItemCounts data = {this.state.index === -1 ? {} : this.state.items[0]} />
+                </div> )}
             </div>
         )
     }

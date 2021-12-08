@@ -9,7 +9,7 @@ export class CardItemCounts extends React.Component{
             item_upc: this.props.data.item_upc,
             item_name: this.props.data.item_name,
             item_desc: this.props.data.item_desc,
-            item_alt_id: this.props.data.item_alt_id === undefined ? 'n/a' : this.props.data.item_alt_id,
+            item_alt_id: this.props.data.item_sku_id === undefined ? 'n/a' : this.props.data.item_sku_id,
             item_wholesale: this.props.data.item_wholesale,
             item_sale_price: this.props.data.item_sale_price,
 
@@ -72,7 +72,7 @@ export class CardItemCounts extends React.Component{
                 <div className='card-rightpanel-wrapper'>
                     <h2>Bin/Home QR:</h2>
                     <div className='card-qrcode-wrapper'>
-                        <QRCode value = {this.props.data.item_alt_id === undefined ? '' : this.props.data.item_alt_id} size = {150} />
+                        <QRCode value = {this.props.data.item_sku_id === undefined ? '' : this.props.data.item_sku_id} size = {150} />
                     </div>
                     
                 </div>
