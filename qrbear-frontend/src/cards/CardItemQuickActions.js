@@ -4,28 +4,7 @@ export class CardItemQuickActions extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            id: this.props.data.id,
-            item_upc: this.props.data.item_upc,
-            item_name: this.props.data.item_name,
-            item_desc: this.props.data.item_desc,
-            item_alt_id: this.props.data.item_alt_id === undefined ? 'n/a' : this.props.data.item_alt_id,
-            item_wholesale: this.props.data.item_wholesale,
-            item_sale_price: this.props.data.item_sale_price,
-
-            //rather than contacting the database for new data, let's save a local copy of the state with editData(), and restore it with cancelEdit().
-            //this will be overwritten in commitEdit() after DB contact, and in editData() before entering edit mode.
-            //this will be used to restore edit fields to their original text in cancelEdit(), since the state is modified in onChange().
-            //this is a temp measure, though.
-            undoState: {
-                id: -1,
-                item_upc: '',
-                item_name: '',
-                item_desc: '',
-                item_alt_id: '',
-                item_wholesale: '',
-                item_sale_price: '',
-            },
-
+            
             readonly: true,
             isUpdating: false
         }

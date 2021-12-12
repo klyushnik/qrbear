@@ -7,6 +7,16 @@
 .App-link {
   color: #61dafb;
 }
+//mixins - shadow, font attributes, etc
+//=============================================================================================
+@mixin soft-shadow {
+  box-shadow:
+    0px 2.1px 1.3px rgba(0, 0, 0, 0.061),
+    0px 4.9px 4.5px rgba(0, 0, 0, 0.089),
+    0px 10px 20px rgba(0, 0, 0, 0.15)
+  ;
+}
+
 //sidebar, reslist, reslist container
 //=============================================================================================
 .sidebar {
@@ -18,10 +28,37 @@
   position:absolute;
   top: 0px;
   bottom: 0px;
-  text-align: left;
+  text-align: right;
   color: white;
   z-index: 2;
-  
+}
+.sidebaritemcontainer {
+  position: relative;
+  width: fit-content;
+  left: -400px;
+}
+.sidebaritem {
+  font-size: medium;
+  font-weight: normal;
+  user-select: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  position: relative;
+  transition: 0.3s;
+  width: fit-content;
+  left: calc(-100% + 55px + 400px);
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 10px;
+  white-space: nowrap;
+  &:hover {
+    @include soft-shadow;
+    left: 390px;
+    background-color: rgb(112,141,0);
+  }
 }
 .reslist {
   @extend .sidebar;
@@ -32,8 +69,9 @@
   height: 100%;
 }
 .reslist-container {
+  //@include soft-shadow;
   background-color: rgb(219, 226, 230);
-  border-right: 1px solid rgb(190, 190, 190);
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
   color: rgb(50,50,50);
   overflow-y: auto;
   position: block;
@@ -144,10 +182,9 @@ button {
   background-color: rgb(44, 104, 196);
   border-radius: 3px;
   border: solid 1px rgb(0, 73, 184);
-  transition: 0.2s;
   
   //vertical-align: middle;
-  //height: fit-content;
+  height: fit-content;
   &:hover {
     background-color:rgb(71, 144, 255);
     border-color:rgb(0, 102, 255);
@@ -155,6 +192,9 @@ button {
   &:active {
     background-color:rgb(0, 73, 184);
     border-color:rgb(2, 46, 112);
+  }
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 .redbtn {
@@ -224,33 +264,7 @@ li:active, .listitem-container:active {
   border-bottom: 1px solid rgb(190, 190, 190);
   display: flex;
 }
-.sidebaritem {
-  font-size: medium;
-  font-weight: normal;
-  user-select: none;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  position: relative;
-  left: -155px;
-  transition: 0.3s;
-  width: 170px;
-  background-color: rgb(17, 62, 83);
-  display: flex;
-  justify-content: flex-end;
-  border-radius: 10px;
-  &:hover {
-    left: -10px;
-    background-color: rgb(112,141,0);
-    box-shadow:
-      0px 2.1px 1.3px rgba(0, 0, 0, 0.061),
-      0px 4.9px 4.5px rgba(0, 0, 0, 0.089),
-      0px 10px 20px rgba(0, 0, 0, 0.15)
-    ;
 
-  }
-}
 
 .listitem-middle-col {
   font-size: medium;
@@ -285,7 +299,7 @@ li:active, .listitem-container:active {
   bottom: 0px;
   box-sizing: border-box;
   padding: 0;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(166, 184, 189);
   &-reslist {
     @extend .module;
     display: grid;
@@ -313,6 +327,7 @@ li:active, .listitem-container:active {
 //card - container, title, labels, inputs - normal & readonly
 //=============================================================================================
 .card-container {
+  @include soft-shadow;
   background-color: rgb(240, 240, 240);
   border-top: 1px solid rgb(255, 255, 255);
   border-radius: 6px;
@@ -322,11 +337,6 @@ li:active, .listitem-container:active {
   padding-right: 15px;
   width: 100%;
   box-sizing: border-box;
-  box-shadow:
-    0px 2.1px 1.3px rgba(0, 0, 0, 0.061),
-    0px 4.9px 4.5px rgba(0, 0, 0, 0.089),
-    0px 10px 20px rgba(0, 0, 0, 0.15)
-  ;
   &-grid {
     @extend .card-container;
     display:grid;
@@ -351,7 +361,7 @@ li:active, .listitem-container:active {
   grid-row-end: 3;
 }
 
-input[type=text]{
+input[type=text], input[type=number]{
   padding:3px;
   margin-bottom: 3px;
   padding-left: 10px;
@@ -366,14 +376,14 @@ input[type=text]{
   background-color: rgba(255, 255, 255, 0.5);
   //box-shadow: 0px 0px 15px rgb(204, 204, 204);
   &:read-only {
-    @extend input, [type=text];
+    @extend input, [type=text], [type=number];
     border: none;
     border-radius: 0px;
     border-bottom: 1px dashed rgb(50,50,50);
     background-color: rgb(240, 240, 240);
   }
   &:focus {
-    @extend input, [type=text];
+    @extend input, [type=text], [type=number];
     outline: 1px solid rgb(0, 162, 255);
     border: 2px solid rgb(0, 162, 255);
   }
@@ -406,7 +416,19 @@ input[type=text]{
   display: flex;
   flex-direction: row;
   gap: 10px;
-  margin-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+  //gap: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  &-bottom {
+    @extend .column;
+    justify-content: flex-end;
+  }
 }
 .spacer {
   height: 10px;
@@ -421,7 +443,7 @@ hr.solid {
 h2 {
   font-size: 22px;
   font-weight: normal;
-  line-height: 1px;
+  margin: 0px;
 }
 h3 {
   font-size: 18px;
@@ -432,12 +454,13 @@ h3 {
 .card-title{
   font-size: 24px;
   font-weight: normal;
-  line-height:0px;
   color:rgb(50,50,50);
   grid-column: 1 / 3;
+  margin: 0px;
 }
 label {
   color:rgb(50,50,50);
   font-size: 14px;
   font-weight: bold;
+  margin: 0px;
 }

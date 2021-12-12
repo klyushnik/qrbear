@@ -1,30 +1,37 @@
 import React from "react";
 import { CardItemCounts } from "./cards/CardItemCounts";
 import { CardItemInfo } from "./cards/CardItemInfo";
+import { CardItemNewItem } from "./cards/CardItemNewItem";
 import { CardItemQuickActions } from "./cards/CardItemQuickActions";
 import { ResListContainer } from "./Reslist";
 
-const items = require('./MOCK_DATA.json');
 
 export class ModuleItemManagement extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            index: -1,
-            data: [],
+            item_id: -1,
+            data: {},
             items: [],
-            DataisLoaded: false
+            DataisLoaded: false,
+            newItemMode: false
         }
-        this.mainOpsSetup = this.mainOpsSetup.bind(this);
+        this.setItem = this.setItem.bind(this);
+        this.newItem = this.newItem.bind(this);
+        this.fetchItemList = this.fetchItemList.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
     }
 
 
-    mainOpsSetup(newIndex) {
-        this.setState({index: newIndex});
+    setItem(newIndex) {
+        this.setState({
+            item_id: newIndex,
+            newItemMode: false
+        });
     }
 
-    componentDidMount() {
-        fetch("/api") //select * from item
+    fetchItemList(newIndex) {
+        fetch("/list/items") //select * from item
         //fetch("/list/items") //select item_id, item_name, item_sku from item
         .then((res) => 
             res.json())
@@ -34,7 +41,40 @@ export class ModuleItemManagement extends React.Component {
                 DataisLoaded: true
             });
         })
-        .then(() => {console.log(this.state.items[0]);});      
+        .then(() => {
+            if(this.state.items.length > 0){
+                let firstIndex = this.state.items[this.state.newItemMode ? this.state.items.length - 1 : 0].item_id;
+                this.setItem(newIndex === undefined ? firstIndex : newIndex);
+            } else {
+                this.newItem();
+            }
+        });   
+    }
+
+    newItem() {
+        this.setState({
+            item_id: -1,
+            newItemMode: true
+        });
+        console.log(this.state.item_id);
+    }
+
+    deleteItem(){
+        if(window.confirm(`This will delete the record with Item ID ${this.state.item_id}. All data associated with it will be deleted as well.\nDo you want to continue?`)){
+            fetch("/deleteitem/" + this.state.item_id)
+            .then(response => {
+                if(!response.ok){
+                    console.log(response.statusText);
+                    alert('There was a problem deleting this record.');
+                } else {
+                    this.fetchItemList();
+                }
+            });
+        }
+    }
+
+    componentDidMount() {
+           this.fetchItemList();
     }
 
     render() {
@@ -46,24 +86,25 @@ export class ModuleItemManagement extends React.Component {
                 </div>
                 <div className = 'section-header'>
                     <h1 className='section-header-h1'>Item management</h1>
-                    <button >[ + ] New Item</button> 
-                    <button>[ * ] Duplicate Item</button>   
-                    <button className = 'redbtn'>[ x ] Delete Item</button>                  
+                    <button onClick = {this.newItem}>[ + ] New Item</button> 
+                    <button disabled = {this.state.item_id === -1}>[ * ] Duplicate Item</button>   
+                    <button className = 'redbtn' disabled = {this.state.item_id === -1} onClick={this.deleteItem}>[ x ] Delete Item</button>                  
                 </div>
-                <ResListContainer items = {this.state.items} opsCallback = {this.mainOpsSetup}/>
-                {this.state.index == -1 ?
+                <ResListContainer items = {this.state.items} opsCallback = {this.setItem}/>
+                {this.state.newItemMode === true || this.state.items.length == 0 ?
                 (<div className='main-ops'>
-                    <div style = {{display: "flex", flexDirection: "column", width: "75%", height: "100%", margin: "auto", justifyContent: "center"}}>
-                        <div className='card-inside'>   
+                    <div style = {{display: "flex", flexDirection: "column", width: "50%", height: "100%", margin: "auto", justifyContent: "center"}}>
+                        {/* <div className='card-inside'>   
                         <h2>No item selected</h2>
                         <p>Select an item from the list or add a new item.</p>
-                        </div>
+                        </div> */}
+                        <CardItemNewItem callback = {this.fetchItemList} isEmpty = {this.state.items.length == 0}/>
                     </div>
                 </div>) :
                 ( <div className = 'main-ops-grid'>
-                    <CardItemInfo data = {this.state.items.length > 0 ? this.state.items[0] : {}} />
-                    <CardItemQuickActions data = {this.state.index === -1 ? {} : this.state.items[0]} />
-                    <CardItemCounts data = {this.state.index === -1 ? {} : this.state.items[0]} />
+                    <CardItemInfo item_id = {this.state.item_id} callback = {this.fetchItemList}/>
+                    <CardItemQuickActions/>
+                    <CardItemCounts data = {this.state.data}/>
                 </div> )}
             </div>
         )
