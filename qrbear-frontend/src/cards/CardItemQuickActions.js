@@ -4,29 +4,51 @@ export class CardItemQuickActions extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            
-            readonly: true,
-            isUpdating: false
+            isUpdating: false,
+            add_bin_id: 0,
+            add_home_id: 0,
+            add_count: 0,
+            remove_bin_id: 0, 
+            remove_home_id: 0,
+            remove_count: 0,
+            transfer_from_bin_id: 0,
+            transfer_from_home_id: 0,
+            transfer_to_bin_id: 0, 
+            transfer_to_home_id: 0,
+            transfer_count: 0
         }
-        this.editData = this.editData.bind(this);
-        this.cancelEdit = this.cancelEdit.bind(this);
-        this.commitEdit = this.commitEdit.bind(this);
+        this.addToBin = this.addToBin.bind(this);
+        this.cancelEdit = this.removeFromBin.bind(this);
+        this.commitEdit = this.transferItems.bind(this);
     }
 
-    editData(){
+    addToBin(){
         //set inputs to editable, set cancel/commit buttons visibility
-        this.setState({readonly: false});
-        
+        let request = {
+            method: 'POST',
+            headers: { 'Content-Type' : 'application/json' },
+            body: JSON.stringify({
+                bin_id: this.state.add_bin_id,
+                item_id: this.props.item_id,
+                item_count: this.state.add_count
+            })
+        };
+        fetch('/addtobin', request)
+            .then(response => {
+                if(response.ok){
+                    this.props.callback();
+                }
+            });
     }
 
-    cancelEdit(){
+    removeFromBin(){
         //set inputs to readonly, reload state from props
-        this.setState({readonly: true});
+
     }
 
-    commitEdit(){
+    transferItems(){
         //set inputs to readonly, update state, commit changes to database, THEN this.forceUpdate() to reload
-        this.setState({readonly: true});
+        
     }
 
 
@@ -40,27 +62,27 @@ export class CardItemQuickActions extends React.Component{
                 <div className='row'>
                     <div>
                         <label htmlFor="it_id">From: Bin ID:</label><br/>
-                        <input name="it_id" type='text' defaultValue = '0'></input>
+                        <input name="it_id" type='number' value = {this.state.transfer_from_bin_id} onChange={e => {this.setState({transfer_from_bin_id: e.target.value})}}></input>
                     </div>
                     <h3>or</h3>               
                     <div>
                         <label htmlFor="it_altid">Home ID:</label><br/>
-                        <input name="it_altid" type='text' defaultValue = '0'></input>
+                        <input name="it_altid" readOnly={true} type='number' value = {this.state.transfer_from_home_id} onChange={e => {this.setState({transfer_from_home_id: e.target.value})}}></input>
                     </div>
                     <div>
                         <label htmlFor="it_altid">Count:</label><br/>
-                        <input name="it_altid" type='text' defaultValue = '0'></input>
+                        <input name="it_altid" type='number' value = {this.state.transfer_count} onChange={e => {this.setState({transfer_count: e.target.value})}}></input>
                     </div>
                 </div>
                 <div className='row'>     
                     <div>
                         <label htmlFor="it_upc">To: Bin ID:</label><br/>
-                        <input name="it_upc" type='text' defaultValue = '0'></input>
+                        <input name="it_upc" type='number' value = {this.state.transfer_to_bin_id} onChange={e => {this.setState({transfer_to_bin_id: e.target.value})}}></input>
                     </div>
                     <h3>or</h3> 
                     <div>
                         <label htmlFor="it_name">Home ID:</label><br/>
-                        <input name="it_name" type='text' defaultValue = '0'></input>
+                        <input name="it_name" readOnly={true} type='number' value = {this.state.transfer_to_home_id} onChange={e => {this.setState({transfer_to_home_id: e.target.value})}}></input>
                     </div>
                      
                 </div>
@@ -72,31 +94,31 @@ export class CardItemQuickActions extends React.Component{
                         <h2>Add items</h2>
                         <div>
                             <label htmlFor="it_desc">To: Bin ID:</label><br/>
-                            <input name="it_desc" type='text' defaultValue = '0'></input>
+                            <input name="it_desc" type='number' value = {this.state.add_bin_id} onChange={e => {this.setState({add_bin_id: e.target.value})}}></input>
                         </div>
                         <div>
                             <label htmlFor="it_desc">To: Home ID:</label><br/>
-                            <input name="it_desc" type='text' defaultValue = '0'></input>
+                            <input name="it_desc" readOnly={true} type='number' value = {this.state.add_home_id} onChange={e => {this.setState({add_home_id: e.target.value})}}></input>
                         </div>
                         <div>
                             <label htmlFor="it_wholesale">Count:</label><br/>
-                            <input name="it_wholesale" type='text' defaultValue = '0'></input>
+                            <input name="it_wholesale" type='number' value = {this.state.add_count} onChange={e => {this.setState({add_count: e.target.value})}}></input>
                         </div>
-                        <button className='greenbtn' onClick={() =>{ alert("Success!\nAdded a few items to bin 1.") }}>Add Items</button> 
+                        <button className='greenbtn' onClick={this.addToBin}>Add Items</button> 
                     </div>
                     <div className='card-inside'>
                         <h2>Remove items</h2>
                         <div>
                             <label htmlFor="it_desc">From: Bin ID:</label><br/>
-                            <input name="it_desc" type='text' defaultValue = '0'></input>
+                            <input name="it_desc" type='number' value = {this.state.remove_bin_id} onChange={e => {this.setState({remove_bin_id: e.target.value})}}></input>
                         </div>
                         <div>
                             <label htmlFor="it_desc">From: Home ID:</label><br/>
-                            <input name="it_desc" type='text' defaultValue = '0'></input>
+                            <input name="it_desc" readOnly={true} value = {this.state.remove_home_id} onChange={e => {this.setState({remove_home_id: e.target.value})}}></input>
                         </div>
                         <div>
                             <label htmlFor="it_wholesale">Count:</label><br/>
-                            <input name="it_wholesale" type='text' defaultValue = '0'></input>
+                            <input name="it_wholesale" type='number' value = {this.state.remove_count} onChange={e => {this.setState({remove_count: e.target.value})}}></input>
                         </div>
                         <button className='redbtn'>Remove Items</button> 
                     </div>

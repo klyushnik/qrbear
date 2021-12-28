@@ -4,6 +4,7 @@ import {SidebarMenu} from './Sidebar';
 
 //modules
 import { ModuleItemManagement } from './ModuleItemManagement';
+import { ModuleBinManagement } from './ModuleBinManagement';
 
 import React, {useState} from 'react';
 
@@ -29,13 +30,14 @@ function App() {
         return (
           <ModuleItemManagement />
         );
-      break;
       case modes.ITEM_MANAGEMENT: 
         return (
           <ModuleItemManagement />
         );
-      break;
       case modes.BINS_MANAGEMENT:
+        return (
+          <ModuleBinManagement />
+        );
       case modes.AISLES_LOCATIONS:
       case modes.COUNTS_REPORTS:
       case modes.APP_PREFERENCES:
@@ -45,7 +47,6 @@ function App() {
           <h2>APP_MODE: {APP_MODE}</h2>
         </div>
         );
-      break;
     }
   }
 

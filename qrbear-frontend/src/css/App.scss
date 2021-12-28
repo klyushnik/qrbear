@@ -74,16 +74,16 @@
   border-right: 1px solid rgba(0, 0, 0, 0.25);
   color: rgb(50,50,50);
   overflow-y: auto;
-  position: block;
   //top: 70px;
   //bottom: 0px;
   width: 100%;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;
+  height: 100%;
+  //-ms-overflow-style: none;  /* IE and Edge */
+  //scrollbar-width: none;
 }
-.reslist-container::-webkit-scrollbar {
-  display:none;
-}
+//.reslist-container::-webkit-scrollbar {
+  //display:none;
+//}
 
 //section header div and text, reslist header
 //=============================================================================================
@@ -318,7 +318,7 @@ li:active, .listitem-container:active {
   &-grid {
     @extend .main-ops;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     grid-template-columns: 1fr 1fr;
     gap: 10px;  
   }
@@ -339,9 +339,12 @@ li:active, .listitem-container:active {
   box-sizing: border-box;
   &-grid {
     @extend .card-container;
-    display:grid;
+    overflow: none;
+    display: grid;
     grid-template-columns: 1fr 160px;
-    grid-template-rows: 35px 1fr;
+    grid-template-rows: 35px minmax(0,1fr);
+    max-height: 100%;
+    overflow: auto;
   }
   
 }
@@ -352,6 +355,19 @@ li:active, .listitem-container:active {
   border: 1px solid rgb(190, 190, 190);
   box-shadow: none;
   border-radius: 0px;
+  height: minmax(0, 100%);
+  &-nopadding {
+    @extend .card-inside;
+    padding: 0px;
+  }
+}
+
+.fuck{
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #61dafb;
+  border: 1px solid rgb(190, 190, 190);
 }
 
 .quickactions-container {

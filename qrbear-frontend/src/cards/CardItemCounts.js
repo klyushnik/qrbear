@@ -1,11 +1,12 @@
 import React from "react";
 import QRCode from "react-qr-code";
+import { BinCountsListContainer } from "../BinCountslist";
 
 export class CardItemCounts extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            
+            bin_id: 0,
             readonly: true,
             isUpdating: false
         }
@@ -33,25 +34,31 @@ export class CardItemCounts extends React.Component{
 
     //append it_ prefix to avoid browser autocomplete
     render(){
+        console.log(this.props.items);
         return (
             <div className='card-container-grid'>
                 <h2 className='card-title'>Counts</h2>
                 <div className = 'card-leftpanel-wrapper'>
-                    <label>Bin counts:</label>
+                    {this.props.items.length === 0 ?
+                        <div className='card-inside'>
+                            <p>This item is not found in any bins.</p>
+                        </div> :
+                        <div className="fuck">
+                            <BinCountsListContainer callback = {(param) => {this.setState({bin_id: param})}} items = {this.props.items}/>
+                        </div>
+                    }
+                    {/* <label>Sales floor counts:</label>
                     <div className='card-inside'>
                         <p>This item is not found in any bins.</p>
-                    </div>
-                    <label>Sales floor counts:</label>
-                    <div className='card-inside'>
-                        <p>This item is not on the sales floor.</p>
-                    </div>
+                    </div> */}
+                    
 
                 </div>
 
                 <div className='card-rightpanel-wrapper'>
                     <h2>Bin/Home QR:</h2>
                     <div className='card-qrcode-wrapper'>
-                    <QRCode value = {this.props.data.item_sku_id === undefined ? '' : this.props.data.item_sku_id} size = {150} />
+                    <QRCode value = {this.state.bin_id} size = {150} />
                     </div>
                     
                 </div>

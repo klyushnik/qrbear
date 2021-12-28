@@ -13,6 +13,7 @@ export class ModuleItemManagement extends React.Component {
             item_id: -1,
             data: {},
             items: [],
+            binCounts: [],
             DataisLoaded: false,
             newItemMode: false
         }
@@ -20,6 +21,7 @@ export class ModuleItemManagement extends React.Component {
         this.newItem = this.newItem.bind(this);
         this.fetchItemList = this.fetchItemList.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
+        this.fetchBinCounts = this.fetchBinCounts.bind(this);
     }
 
 
@@ -28,11 +30,11 @@ export class ModuleItemManagement extends React.Component {
             item_id: newIndex,
             newItemMode: false
         });
+        this.fetchBinCounts(newIndex);
     }
 
     fetchItemList(newIndex) {
-        fetch("/list/items") //select * from item
-        //fetch("/list/items") //select item_id, item_name, item_sku from item
+        fetch("/list/items")  //select item_id, item_name, item_sku from item
         .then((res) => 
             res.json())
         .then((json) => {
@@ -48,7 +50,9 @@ export class ModuleItemManagement extends React.Component {
             } else {
                 this.newItem();
             }
-        });   
+        }).then(() => {
+            this.fetchBinCounts();
+        })
     }
 
     newItem() {
@@ -73,6 +77,26 @@ export class ModuleItemManagement extends React.Component {
         }
     }
 
+    fetchBinCounts(index){
+        let id;
+        if(index !== undefined){
+            id = index;
+        } else{
+            id = this.state.item_id;
+        }
+        fetch("/list/bincounts/" + id)  //select item_id, item_name, item_sku from item
+        .then((res) => 
+            res.json())
+        .then((json) => {
+            this.setState({
+                binCounts: json,
+                DataisLoaded: true
+            });
+        }).then(() => {
+            console.log(this.state.binCounts);
+        });
+    }
+
     componentDidMount() {
            this.fetchItemList();
     }
@@ -94,17 +118,13 @@ export class ModuleItemManagement extends React.Component {
                 {this.state.newItemMode === true || this.state.items.length == 0 ?
                 (<div className='main-ops'>
                     <div style = {{display: "flex", flexDirection: "column", width: "50%", height: "100%", margin: "auto", justifyContent: "center"}}>
-                        {/* <div className='card-inside'>   
-                        <h2>No item selected</h2>
-                        <p>Select an item from the list or add a new item.</p>
-                        </div> */}
                         <CardItemNewItem callback = {this.fetchItemList} isEmpty = {this.state.items.length == 0}/>
                     </div>
                 </div>) :
                 ( <div className = 'main-ops-grid'>
                     <CardItemInfo item_id = {this.state.item_id} callback = {this.fetchItemList}/>
-                    <CardItemQuickActions/>
-                    <CardItemCounts data = {this.state.data}/>
+                    <CardItemQuickActions item_id = {this.state.item_id} callback = {this.fetchBinCounts}/>
+                    <CardItemCounts items = {this.state.binCounts}/>
                 </div> )}
             </div>
         )

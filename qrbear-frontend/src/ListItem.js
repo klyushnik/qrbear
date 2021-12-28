@@ -2,7 +2,6 @@
 export function ListItem(props) {
 
     //set state variables after receiving props
-
         return (
             <div className='listitem-container' onClick = {(e) => props.opsCallback(props.item_id)}>
                 <p className='listitem-left-col'>{props.item_id}</p>
